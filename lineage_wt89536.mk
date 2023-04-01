@@ -27,11 +27,11 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := wt89536
 PRODUCT_NAME := lineage_wt89536
-PRODUCT_BRAND := Xiaomi
-PRODUCT_MODEL := Redmi Note 4
-PRODUCT_MANUFACTURER := Xiaomi
-TARGET_VENDOR := Xiaomi
-BOARD_VENDOR := Xiaomi
+PRODUCT_BRAND := CMCC
+PRODUCT_MODEL := CMCC N2
+PRODUCT_MANUFACTURER := CMDC
+TARGET_VENDOR := CMDC
+BOARD_VENDOR := CMDC
 
 PRODUCT_GMS_CLIENTID_BASE := android-cmdc
 
