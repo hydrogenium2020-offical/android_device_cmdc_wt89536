@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#pragma once
+#ifndef VENDOR_LINEAGE_TOUCH_V1_0_GLOVEMODE_H
+#define VENDOR_LINEAGE_TOUCH_V1_0_GLOVEMODE_H
 
 #include <vendor/lineage/touch/1.0/IGloveMode.h>
 
@@ -40,3 +41,5 @@ class GloveMode : public IGloveMode {
 }  // namespace touch
 }  // namespace lineage
 }  // namespace vendor
+
+#endif  // VENDOR_LINEAGE_TOUCH_V1_0_GLOVEMODE_H

@@ -1,6 +1,11 @@
-allow init self:capability sys_nice;
+allow init wcnss_device:chr_file write;
+allow init sysfs:file setattr;
 
-# Allow init to bind mount gps_debug.conf
+allow qti_init_shell {
+    fm_prop
+}:property_service set;
+
+# Allow init to bind mount loader config for media swcodec
 allow init system_file:file mounton;
 
 # adsprpcd
@@ -9,11 +14,5 @@ allow init adsprpcd_file:filesystem { getattr mount relabelfrom relabelto };
 # Firmware
 allow init firmware_file:filesystem getattr;
 
-# Leds
+# LEDs
 allow init sysfs_leds:lnk_file read;
-
-# Power
-allow init sysfs_battery_supply:file setattr;
-
-# Wifi
-allow init wcnss_device:chr_file write;

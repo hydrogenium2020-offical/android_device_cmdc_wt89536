@@ -492,9 +492,9 @@ const char QCameraParameters::KEY_QC_NOISE_REDUCTION_MODE_VALUES[] = "noise-redu
 const char QCameraParameters::KEY_TS_MAKEUP[] = "tsmakeup";
 const char QCameraParameters::KEY_TS_MAKEUP_WHITEN[] = "tsmakeup_whiten";
 const char QCameraParameters::KEY_TS_MAKEUP_CLEAN[] = "tsmakeup_clean";
-const char QCameraParameters::KEY_XM_MAKEUP[] = "xiaomi-still-beautify-values";
-const char QCameraParameters::KEY_XM_MAKEUP_WHITEN[] = "xiaomi-beauty-skin-color";
-const char QCameraParameters::KEY_XM_MAKEUP_CLEAN[] = "xiaomi-beauty-skin-smooth";
+const char QCameraParameters::KEY_XM_MAKEUP[] = "cmdc-still-beautify-values";
+const char QCameraParameters::KEY_XM_MAKEUP_WHITEN[] = "cmdc-beauty-skin-color";
+const char QCameraParameters::KEY_XM_MAKEUP_CLEAN[] = "cmdc-beauty-skin-smooth";
 #endif
 
 //KEY to share HFR batch size with video encoder.
@@ -5805,13 +5805,11 @@ int32_t QCameraParameters::initDefaultParameters()
     set(KEY_SUPPORTED_SCENE_MODES, sceneModeValues);
     setSceneMode(SCENE_MODE_AUTO);
 
-#if 0
     // Set CDS Mode
     String8 cdsModeValues = createValuesStringFromMap(
             CDS_MODES_MAP,
             PARAM_MAP_SIZE(CDS_MODES_MAP));
     set(KEY_QC_SUPPORTED_CDS_MODES, cdsModeValues);
-#endif
 
     // Set video CDS Mode
     String8 videoCdsModeValues = createValuesStringFromMap(
@@ -8126,7 +8124,7 @@ int32_t QCameraParameters::setCDSMode(const QCameraParameters& params)
         } else {
             char video_prop[PROPERTY_VALUE_MAX];
             memset(video_prop, 0, sizeof(video_prop));
-            property_get("persist.camera.video.CDS", video_prop, CDS_MODE_OFF);
+            property_get("persist.camera.video.CDS", video_prop, CDS_MODE_ON);
             int32_t cds_mode = lookupAttr(CDS_MODES_MAP, PARAM_MAP_SIZE(CDS_MODES_MAP),
                     video_prop);
             if (cds_mode != NAME_NOT_FOUND) {
@@ -8166,7 +8164,7 @@ int32_t QCameraParameters::setCDSMode(const QCameraParameters& params)
         } else {
             char prop[PROPERTY_VALUE_MAX];
             memset(prop, 0, sizeof(prop));
-            property_get("persist.camera.CDS", prop, CDS_MODE_OFF);
+            property_get("persist.camera.CDS", prop, CDS_MODE_ON);
             int32_t cds_mode = lookupAttr(CDS_MODES_MAP, PARAM_MAP_SIZE(CDS_MODES_MAP),
                     prop);
             if (cds_mode != NAME_NOT_FOUND) {

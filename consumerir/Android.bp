@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2019-2020 The LineageOS Project
+// Copyright (C) 2017-2018 The LineageOS Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,7 @@ cc_binary {
     name: "android.hardware.ir@1.0-service.cmdc_wt89536",
     relative_install_path: "hw",
     defaults: ["hidl_defaults"],
-    init_rc: ["android.hardware.ir@1.0-service.cmdc_wt89536"],
-    vintf_fragments: ["android.hardware.ir@1.0-service.cmdc_wt89536.xml"],
+    init_rc: ["android.hardware.ir@1.0-service.cmdc_wt89536.rc"],
     srcs: ["service.cpp", "ConsumerIr.cpp"],
     shared_libs: [
         "libbase",

@@ -66,7 +66,12 @@ namespace livedisplay {
 namespace V2_0 {
 namespace sdm {
 
+using ::android::sp;
+
+static sp<PictureAdjustment> sInstance;
+
 PictureAdjustment::PictureAdjustment(void *libHandle, uint64_t cookie) {
+  sInstance = this;
 
   mLibHandle = libHandle;
   mCookie = cookie;
@@ -82,6 +87,7 @@ PictureAdjustment::PictureAdjustment(void *libHandle, uint64_t cookie) {
   disp_api_set_global_pa_config =
       reinterpret_cast<int32_t (*)(uint64_t, uint32_t, uint32_t, void *)>(
           dlsym(mLibHandle, "disp_api_set_global_pa_config"));
+  memset(&mDefaultPictureAdjustment, 0, sizeof(HSIC));
 }
 
 bool PictureAdjustment::isSupported() {
@@ -117,6 +123,28 @@ bool PictureAdjustment::isSupported() {
               r.contrast.min != 0.f;
 out:
   return supported;
+}
+
+HSIC PictureAdjustment::getPictureAdjustmentInternal() {
+  hsic_config config{};
+  uint32_t enable = 0;
+
+  if (disp_api_get_global_pa_config != nullptr) {
+    if (disp_api_get_global_pa_config(mCookie, 0, &enable, &config) == 0) {
+      return HSIC{static_cast<float>(config.data.hue), config.data.saturation,
+                  config.data.intensity, config.data.contrast,
+                  config.data.saturationThreshold};
+    }
+  }
+
+  return HSIC{};
+}
+
+void PictureAdjustment::updateDefaultPictureAdjustment() {
+  if (sInstance != nullptr) {
+    sInstance->mDefaultPictureAdjustment =
+        sInstance->getPictureAdjustmentInternal();
+  }
 }
 
 // Methods from ::vendor::lineage::livedisplay::V2_0::IPictureAdjustment follow.
@@ -205,26 +233,13 @@ Return<void> PictureAdjustment::getSaturationThresholdRange(
 
 Return<void>
 PictureAdjustment::getPictureAdjustment(getPictureAdjustment_cb _hidl_cb) {
-  hsic_config config{};
-  uint32_t enable = 0;
-  HSIC pictureAdjustment = {};
-
-  if (disp_api_get_global_pa_config != nullptr) {
-    if (disp_api_get_global_pa_config(mCookie, 0, &enable, &config) == 0) {
-      pictureAdjustment =
-          HSIC{static_cast<float>(config.data.hue), config.data.saturation,
-               config.data.intensity, config.data.contrast,
-               config.data.saturationThreshold};
-    }
-  }
-
-  _hidl_cb(pictureAdjustment);
+  _hidl_cb(getPictureAdjustmentInternal());
   return Void();
 }
 
 Return<void> PictureAdjustment::getDefaultPictureAdjustment(
     getDefaultPictureAdjustment_cb _hidl_cb) {
-  _hidl_cb(HSIC{});
+  _hidl_cb(mDefaultPictureAdjustment);
   return Void();
 }
 

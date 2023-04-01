@@ -1,22 +1,7 @@
 # Silence /dev/stune logspam
 dontaudit domain device:file w_file_perms;
 
-get_prop(domain, exported_camera_prop)
-get_prop(domain, camera_prop)
+allow { domain -isolated_app -runas_app -untrusted_app_25 -untrusted_app_27 -ephemeral_app -mediaprovider -untrusted_app -perfprofd -vold -iorapd -installd } hal_perf_hwservice:hwservice_manager find;
+allow { domain -isolated_app -runas_app -untrusted_app_25 -untrusted_app_27 -ephemeral_app -mediaprovider -untrusted_app -perfprofd -vold -iorapd -installd } hal_perf_default:binder call;
 
-# Silence dalvikcache logspam
-dontaudit domain dalvikcache_data_file:file execmod;
 
-# Silence some proc related logspam
-dontaudit domain {
-    proc
-    proc_net
-    proc_net_tcp_udp
-    proc_stat
-    proc_tty_drivers
-    proc_version
-    proc_vmallocinfo
-    proc_vmstat
-    proc_zoneinfo
-    serialno_prop
-}:file { read open getattr };

@@ -82,7 +82,7 @@
 #define MAX_AF_STATS_DATA_SIZE  1000
 #define MAX_ASD_STATS_DATA_SIZE 1000
 
-#define MAX_CAPTURE_BATCH_NUM 120
+#define MAX_CAPTURE_BATCH_NUM 32
 
 #define TUNING_DATA_VERSION        6
 #define TUNING_SENSOR_DATA_MAX     0x10000 /*(need value from sensor team)*/
@@ -106,9 +106,8 @@
 #define GPS_PROCESSING_METHOD_SIZE 33
 #define EXIF_IMAGE_DESCRIPTION_SIZE 100
 
-#define MAX_INFLIGHT_REQUESTS  5
+#define MAX_INFLIGHT_REQUESTS  6
 #define MAX_INFLIGHT_BLOB      3
-
 #define MIN_INFLIGHT_REQUESTS  3
 #define MIN_INFLIGHT_60FPS_REQUESTS (6)
 #define MAX_INFLIGHT_REPROCESS_REQUESTS 1
@@ -1474,9 +1473,9 @@ typedef struct {
 typedef struct {
   cam_auto_scene_t      detected_scene;
   uint8_t               max_n_scenes;
-//  xiaomi added 48 custom auto scenes or some other field with total size of 576 bytes
+//  cmdc added 48 custom auto scenes or some other field with total size of 576 bytes
   cam_asd_scene_info_t  scene_info[S_MAX+48];
-//  volatile char         xiaomi_reserved1[576];
+//  volatile char         cmdc_reserved1[576];
 } cam_asd_decision_t;
 
 

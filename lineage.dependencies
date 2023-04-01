@@ -1,1 +1,6 @@
-[]
+[
+ {
+   "repository": "android_kernel_cmdc_wt89536",
+   "target_path": "kernel/cmdc/wt89536"
+ }
+]

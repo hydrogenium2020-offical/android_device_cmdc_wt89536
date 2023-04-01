@@ -15,7 +15,6 @@
 cc_binary {
     name: "vendor.lineage.touch@1.0-service.cmdc_wt89536",
     init_rc: ["vendor.lineage.touch@1.0-service.cmdc_wt89536.rc"],
-    vintf_fragments: ["vendor.lineage.touch@1.0-service.cmdc_wt89536.xml"],
     defaults: ["hidl_defaults"],
     relative_install_path: "hw",
     vendor: true,
