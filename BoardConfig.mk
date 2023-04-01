@@ -1,0 +1,220 @@
+#
+# Copyright (C) 2017-2023 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Security patch level
+VENDOR_SECURITY_PATCH := 2022-09-05
+
+DEVICE_PATH := device/cmdc/wt89536
+
+#Fit for CMCC N2 and Yu YUREKA2
+TARGET_OTA_ASSERT_DEVICE := wt89536,YUREKA2
+
+# Architecture
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := generic
+TARGET_CPU_VARIANT_RUNTIME := cortex-a53
+
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv8-a
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := generic
+TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
+
+# Build
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+
+# Device Properties
+TARGET_ODM_PROP := $(DEVICE_PATH)/odm.prop
+TARGET_PRODUCT_PROP := $(DEVICE_PATH)/product.prop
+TARGET_SYSTEM_EXT_PROP := $(DEVICE_PATH)/system_ext.prop
+TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/vendor.prop
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := msm8953
+TARGET_NO_BOOTLOADER := true
+
+# Kernel
+TARGET_KERNEL_VERSION := 4.9
+TARGET_KERNEL_CONFIG := wt89536_defconfig
+BOARD_KERNEL_BASE := 0x80000000
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 androidboot.bootdevice=7824900.sdhci earlycon=msm_hsl_uart,0x78af000 loop.max_part=16 androidboot.usbconfigfs=true
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+BOARD_KERNEL_PAGESIZE :=  2048
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+
+TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_SOURCE := kernel/cmdc/wt89536
+
+# Init
+TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_wt89536
+TARGET_RECOVERY_DEVICE_MODULES := libinit_wt89536
+
+# Filesystem
+TARGET_USERIMAGES_USE_F2FS := true
+TARGET_USERIMAGES_USE_EXT4 := true
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /vendor/dsp:/dsp \
+    /vendor/firmware_mnt:/firmware \
+    /mnt/vendor/persist:/persist
+TARGET_COPY_OUT_VENDOR := vendor
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/config.fs
+
+# Qualcomm
+BOARD_USES_QCOM_HARDWARE := true
+
+# FM
+BOARD_HAVE_QCOM_FM := true
+TARGET_QCOM_NO_FM_FIRMWARE := true
+
+# Display
+USE_DEVICE_SPECIFIC_DISPLAY := true
+DEVICE_SPECIFIC_DISPLAY_PATH := $(DEVICE_PATH)/qcom-caf/display
+TARGET_SCREEN_DENSITY := 420
+TARGET_USES_ION := true
+TARGET_USES_GRALLOC1 := true
+TARGET_USES_HWC2 := true
+
+# ANT
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+
+# Camera
+BOARD_QTI_CAMERA_32BIT_ONLY := true
+TARGET_SUPPORT_HAL1 := false
+TARGET_TS_MAKEUP := true
+MALLOC_SVELTE_FOR_LIBC32 := true
+
+# Wi-Fi
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_qcwcn
+BOARD_WLAN_DEVICE := qcwcn
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcwcn
+WIFI_DRIVER_FW_PATH_AP := "ap"
+WIFI_DRIVER_FW_PATH_STA := "sta"
+WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+# Partitions
+BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 25765043200 # 25765059584 - 16384
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2679103488
+BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
+BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /mnt/vendor/persist:/persist \
+    /vendor/bt_firmware:/bt_firmware \
+    /vendor/dsp:/dsp \
+    /vendor/firmware_mnt:/firmware
+BOARD_VENDORIMAGE_PARTITION_SIZE := 536584192 # /cust
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
+
+# Treble
+PRODUCT_FULL_TREBLE_OVERRIDE := true
+BOARD_VNDK_VERSION := current
+
+# GPS
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
+
+# Power TARGET_TAP_TO_WAKE_NODE := "/proc/gesture/onoff" in yureka2
+TARGET_TAP_TO_WAKE_NODE := "/proc/touchpanel/enable_dt2w"
+TARGET_USES_INTERACTION_BOOST := true
+
+# HIDL
+DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/framework_manifest.xml
+DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+DEVICE_MATRIX_FILE   := $(DEVICE_PATH)/compatibility_matrix.xml
+
+# Peripheral manager
+TARGET_PER_MGR_ENABLED := true
+
+
+
+# Audio
+# for TFA98XX {
+# BOARD_USES_ALSA_AUDIO := true
+# AUDIO_FEATURE_ENABLED_TFA98XX := true
+# TFA98XX_CTL_NAME := "QUIN_MI2S_RX Audio Mixer MultiMedia1"
+# TFA98XX_LIB_NAME := "libtfa9895.so"
+# TFA98XX_FUNC_CALIBRATION := "exTfa98xx_calibration"
+# TFA98XX_FUNC_SPEAKERON := "exTfa98xx_speakeron"
+# TFA98XX_FUNC_SPEAKEROFF := "exTfa98xx_speakeroff"
+# for TFA98XX }
+
+# AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
+# AUDIO_FEATURE_ENABLED_ALAC_OFFLOAD := true
+# AUDIO_FEATURE_ENABLED_AUDIOSPHERE := true
+# AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := true
+# AUDIO_FEATURE_ENABLED_CUSTOMSTEREO := true
+# AUDIO_FEATURE_ENABLED_EXTN_FORMATS := true
+# AUDIO_FEATURE_ENABLED_FM_POWER_OPT := true
+# AUDIO_FEATURE_ENABLED_FLAC_OFFLOAD := true
+# AUDIO_FEATURE_ENABLED_FLUENCE := true
+# AUDIO_FEATURE_ENABLED_HFP := true
+# AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
+# AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
+# AUDIO_FEATURE_ENABLED_PCM_OFFLOAD := true
+# AUDIO_FEATURE_ENABLED_PCM_OFFLOAD_24 := true
+# AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
+# AUDIO_FEATURE_ENABLED_SSR := true
+# AUDIO_FEATURE_ENABLED_SND_MONITOR := true
+# AUDIO_FEATURE_ENABLED_SOURCE_TRACKING := true
+# AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER := true
+# USE_CUSTOM_AUDIO_POLICY := 1
+# USE_XML_AUDIO_POLICY_CONF := 1
+# TARGET_USES_AOSP_FOR_AUDIO := true
+
+# Audio
+USE_DEVICE_SPECIFIC_AUDIO := true
+DEVICE_SPECIFIC_AUDIO_PATH := $(DEVICE_PATH)/qcom-caf/audio
+AUDIO_FEATURE_ENABLED_EXTENDED_COMPRESS_FORMAT := true
+AUDIO_USE_LL_AS_PRIMARY_OUTPUT := true
+BOARD_SUPPORTS_OPENSOURCE_STHAL := true
+BOARD_SUPPORTS_SOUND_TRIGGER := true
+BOARD_USES_ALSA_AUDIO := true
+
+# IPA
+USE_DEVICE_SPECIFIC_DATA_IPA_CFG_MGR := true
+PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/data-ipa-cfg-mgr-legacy-um
+
+# Media
+USE_DEVICE_SPECIFIC_MEDIA := true
+DEVICE_SPECIFIC_MEDIA_PATH := $(DEVICE_PATH)/qcom-caf/media
+
+# Peripheral manager
+TARGET_PER_MGR_ENABLED := true
+
+# RIL
+ENABLE_VENDOR_RIL_SERVICE := true
+TARGET_USES_OLD_MNC_FORMAT := true
+
+# SELinux
+include device/qcom/sepolicy-legacy-um/SEPolicy.mk
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
+
+# Inherit from the proprietary version
+-include vendor/cmdc/wt89536/BoardConfigVendor.mk

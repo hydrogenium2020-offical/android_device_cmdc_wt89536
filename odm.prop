@@ -1,0 +1,6 @@
+#
+# odm.prop for wt89536
+#
+
+# Qualcomm
+ro.vendor.qti.va_odm.support=1
